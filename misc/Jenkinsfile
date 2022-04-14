@@ -17,7 +17,7 @@ node {
           // app.push()
           sh "docker build -t mlysenko/ml . "
           withDockerRegistry([ credentialsId: "dockerhub-creds", url: ""]){
-          sh "docker push mlysenko/ml:${env.BUILD_ID} "
+          sh "docker push mlysenko/ml:${env.BUILD_TAG} "
        }
      }
 }
