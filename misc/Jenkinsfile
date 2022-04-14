@@ -1,5 +1,10 @@
 node {
    def commit_id
+
+   environment{
+     imagename  = "mysmallimage"
+     dockerImage =''
+   }
    stage('Preparation') {
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"                        
@@ -11,13 +16,18 @@ node {
        sh 'npm test'
      }
    }
-   stage('docker build/push') {
+   stage('docker build'){
+     dockerImage = docker.build imagename
+   }
+   stage('docker push') {
        //docker.withRegistry('https://index.docker.io/v2/', 'dockerhub-creds') {
        //def app = docker.build("mlysenko/ml:${env.BUILD_ID}", '.')
           // app.push()
-          sh "docker build -t mlysenko/ml . "
+          //h "docker build -t mlysenko/ml . "
           withDockerRegistry([ credentialsId: "dockerhub-creds", url: ""]){
-          sh "docker push mlysenko/ml:${env.BUILD_TAG} "
+          //sh "docker push mlysenko/ml:${env.BUILD_TAG} "
+          dockerImage.push("$BUILD_NUMBER")
+          dockerImage.push('latest')
        }
      }
 }
