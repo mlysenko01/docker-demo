@@ -12,11 +12,13 @@ node {
      }
    }
    stage('docker build/push') {
-     //docker.withRegistry('https://index.docker.io/v2/', 'dockerhub-creds') {
-     //  def app = docker.build("mlysenko/ml:${commit_id}", '.').push()
-        sh "docker build -t mlysenko/ml . "
-       withDockerRegistry([ credentialsId: "dockerhub-creds", url: ""]){
-         sh "docker push --all-tags mlysenko/ml "
+     docker.withRegistry('https://index.docker.io/v2/', 'dockerhub-creds') {
+       def app = docker.build("mlysenko/ml:${env.BUILD_ID}", '.')
+           app.push()
+
+       // sh "docker build -t mlysenko/ml . "
+       //withDockerRegistry([ credentialsId: "dockerhub-creds", url: ""]){
+        // sh "docker push --all-tags mlysenko/ml "
        }
      }
 }
