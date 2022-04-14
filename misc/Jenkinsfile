@@ -3,7 +3,7 @@ node {
 
    environment { 
      imagename  = "mysmallimage"
-     dockerImage =''
+     //dockerImage =''
    }
    stage('Preparation') {
      checkout scm
@@ -17,11 +17,7 @@ node {
      }
    }
    stage('docker build') {
-     steps {
-        script {
-           dockerImage = docker.build imagename
-       }
-     }
+         def dockerImage = docker.build imagename
    }
    stage('docker push') {
        //docker.withRegistry('https://index.docker.io/v2/', 'dockerhub-creds') {
