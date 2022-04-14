@@ -21,14 +21,14 @@ node {
          def app = docker.build("mlysenko/ml:${env.BUILD_ID}", '.')
    }
    stage('docker push') {
-       //docker.withRegistry('https://index.docker.io/v2/', 'dockerhub-creds') {
+       docker.withRegistry('https://index.docker.io/v2/', 'dockerhub-creds') {
        //def app = docker.build("mlysenko/ml:${env.BUILD_ID}", '.')
-          // app.push()
+          app.push()
           //sh "docker build -t mlysenko/ml . "
-          withDockerRegistry([ credentialsId: "dockerhub-creds", url: ""]){
+          //withDockerRegistry([ credentialsId: "dockerhub-creds", url: ""]){
           //sh "docker push mlysenko/ml:${env.BUILD_TAG} "
-          app.push("$BUILD_NUMBER")
-          app.push('latest')
+          //app.push("$BUILD_NUMBER")
+          //app.push('latest')
        }
      }
 }
