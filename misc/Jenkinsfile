@@ -12,8 +12,11 @@ node {
      }
    }
    stage('docker build/push') {
-     docker.withRegistry('https://index.docker.io/v2/', 'dockerhub-creds') {
-       def app = docker.build("mlysenko/ml:${commit_id}", '.').push()
+     //docker.withRegistry('https://index.docker.io/v2/', 'dockerhub-creds') {
+     //  def app = docker.build("mlysenko/ml:${commit_id}", '.').push()
+       withDockerRegistry([ credentialsId: "dockerhub-creds", url: ""]){
+         sh "docker push mlysenko/ml:${commit_id}"
+       }
      }
    }
 }
