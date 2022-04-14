@@ -21,7 +21,7 @@ node {
           app1 = docker.build("mlysenko/ml:${env.BUILD_ID}", '.')
    }
    stage('docker push') {
-       docker.withRegistry('https://index.docker.io/v2/', 'dockerhub-creds') {
+       docker.withRegistry('https://index.docker.io/v2/', "dockerhub-creds") {
        //def app = docker.build("mlysenko/ml:${env.BUILD_ID}", '.')
           app1.push()
           //sh "docker build -t mlysenko/ml . "
